@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
       }),
       dts({
         outDir: 'dist/types',
+        tsconfigPath: './tsconfig.app.json',
       }),
     ],
     build: {
