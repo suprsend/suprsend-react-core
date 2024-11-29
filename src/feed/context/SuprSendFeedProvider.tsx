@@ -1,22 +1,10 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { IFeedOptions, Feed, IFeedData } from '@suprsend/web-sdk';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { Feed, IFeedData } from '@suprsend/web-sdk';
 import { SuprSendContext, useSuprSendClient } from '../../core';
-
-interface SuprSendFeedContextProps {
-  feedClient?: Feed;
-  feedData?: IFeedData;
-}
-
-interface SuprSendProviderProps extends IFeedOptions {
-  children: ReactNode;
-}
+import {
+  SuprSendFeedContextProps,
+  SuprSendFeedProviderProps,
+} from '../../interface';
 
 export const SuprSendFeedContext =
   createContext<SuprSendFeedContextProps | null>(null);
@@ -27,7 +15,7 @@ function SuprSendFeedProvider({
   host,
   pageSize,
   children,
-}: SuprSendProviderProps) {
+}: SuprSendFeedProviderProps) {
   const suprsendClient = useSuprSendClient();
   const ssContext = useContext(SuprSendContext);
 
@@ -58,6 +46,9 @@ function SuprSendFeedProvider({
     });
 
     feedClient.initializeSocketConnection();
+    feedClient.fetch();
+
+    return () => feedClient.remove();
   }, [ssContext.authenticatedUser]);
 
   return (

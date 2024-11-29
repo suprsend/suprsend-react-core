@@ -1,17 +1,10 @@
 import { useContext } from 'react';
-import SuprSend, { RefreshTokenCallback } from '@suprsend/web-sdk';
+import {
+  IHandleUserAuthenticationOptions,
+  IAuthenticateUserOptions,
+} from '../../interface';
 import useSuprSendClient from './useSuprSendClient';
 import { SuprSendContext } from '../context';
-
-interface IAuthenticateUserOptions {
-  distinctId: unknown;
-  userToken?: string;
-  refreshUserToken?: RefreshTokenCallback;
-}
-
-interface IHandleUserAuthenticationOptions extends IAuthenticateUserOptions {
-  suprsendClient: SuprSend;
-}
 
 export async function authenticateUser({
   distinctId,
