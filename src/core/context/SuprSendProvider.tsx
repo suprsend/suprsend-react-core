@@ -42,7 +42,14 @@ function SuprSendProvider({
 
   useEffect(() => {
     handleUserAuthentication();
-  }, [distinctId, userToken]);
+
+    return () => {
+      const suprsendClient = suprsendClientRef.current;
+      if (suprsendClient?.isIdentified()) {
+        suprsendClient?.reset();
+      }
+    };
+  }, [distinctId]);
 
   return (
     <SuprSendContext.Provider
