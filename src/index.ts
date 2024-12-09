@@ -1,4 +1,4 @@
-export * from './interface';
+export * from '@suprsend/web-sdk';
 export * from './core';
 export * from './feed';
-export * from '@suprsend/web-sdk';
+export * from './interface';

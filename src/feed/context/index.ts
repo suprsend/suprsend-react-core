@@ -1,4 +1,1 @@
-export {
-  default as SuprSendFeedProvider,
-  SuprSendFeedContext,
-} from './SuprSendFeedProvider';
+export { default as SuprSendFeedProvider } from './SuprSendFeedProvider';

@@ -1,7 +1,14 @@
 import { createContext, useState, useEffect, useRef, useMemo } from 'react';
-import SuprSend from '@suprsend/web-sdk';
-import { SuprSendContextProps, SuprSendProviderProps } from '../../interface';
-import { authenticateUser } from '../hooks';
+import { SuprSend } from '@suprsend/web-sdk';
+import {
+  IAuthenticateUserOptions,
+  SuprSendContextProps,
+  SuprSendProviderProps,
+} from '../../interface';
+import {
+  authenticateUser,
+  handleUserAuthentication,
+} from '../hooks/useAuthenticateUser';
 
 export const SuprSendContext = createContext<SuprSendContextProps>({
   suprsendClient: undefined,
@@ -18,6 +25,7 @@ function SuprSendProvider({
   swFileName,
   refreshUserToken,
   children,
+  userAuthenticationHandler,
 }: SuprSendProviderProps) {
   const suprsendClientRef = useRef<SuprSend>();
   const [authenticatedUser, setAuthenticatedUser] = useState<unknown>(null);
@@ -30,18 +38,33 @@ function SuprSendProvider({
     });
   }, []);
 
-  const handleUserAuthentication = async () => {
-    const authenticationStatus = await authenticateUser({
+  const handleInternalUserAuthentication = async () => {
+    const suprsendClient = suprsendClientRef.current as SuprSend;
+    const existingUser = suprsendClient.distinctId;
+
+    const response = await authenticateUser({
       distinctId,
       userToken,
       refreshUserToken,
-      suprsendClient: suprsendClientRef.current as SuprSend,
+      suprsendClient: suprsendClient,
     });
-    setAuthenticatedUser(authenticationStatus ? distinctId : null);
+
+    setAuthenticatedUser(suprsendClient.isIdentified() ? distinctId : null);
+    if (distinctId || (existingUser && !distinctId)) {
+      userAuthenticationHandler?.({
+        response,
+        authenticateUser: (data: IAuthenticateUserOptions) =>
+          handleUserAuthentication({
+            ...data,
+            suprsendClient,
+            setAuthenticatedUser,
+          }),
+      });
+    }
   };
 
   useEffect(() => {
-    handleUserAuthentication();
+    handleInternalUserAuthentication();
 
     return () => {
       const suprsendClient = suprsendClientRef.current;

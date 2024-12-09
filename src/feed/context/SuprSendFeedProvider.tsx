@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { Feed, IFeedData } from '@suprsend/web-sdk';
-import { SuprSendContext, useSuprSendClient } from '../../core';
+import { SuprSendContext } from '../../core/context/SuprSendProvider';
+import { useSuprSendClient } from '../../core';
 import {
   SuprSendFeedContextProps,
   SuprSendFeedProviderProps,

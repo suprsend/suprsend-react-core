@@ -1,9 +1,11 @@
 import { ReactNode, Dispatch, SetStateAction } from 'react';
-import SuprSend, {
+import {
+  SuprSend,
   RefreshTokenCallback,
   Feed,
   IFeedData,
   IFeedOptions,
+  ApiResponse,
 } from '@suprsend/web-sdk';
 
 export interface SuprSendContextProps {
@@ -21,6 +23,13 @@ export interface SuprSendProviderProps {
   swFileName?: string;
   refreshUserToken?: RefreshTokenCallback;
   children: ReactNode;
+  userAuthenticationHandler?: ({
+    response,
+    authenticateUser,
+  }: {
+    response: ApiResponse;
+    authenticateUser: (data: IAuthenticateUserOptions) => Promise<ApiResponse>;
+  }) => void;
 }
 
 export interface IAuthenticateUserOptions {
@@ -32,6 +41,7 @@ export interface IAuthenticateUserOptions {
 export interface IHandleUserAuthenticationOptions
   extends IAuthenticateUserOptions {
   suprsendClient: SuprSend;
+  setAuthenticatedUser?: Dispatch<SetStateAction<unknown>> | undefined;
 }
 
 export interface SuprSendFeedContextProps {

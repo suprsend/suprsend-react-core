@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { SuprSendContext } from '../context';
+import { SuprSendContext } from '../context/SuprSendProvider';
 
 function useSuprSendClient() {
   const context = useContext(SuprSendContext);

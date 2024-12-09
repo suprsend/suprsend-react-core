@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { SuprSendFeedContext } from '../context';
+import { SuprSendFeedContext } from '../context/SuprSendFeedProvider';
 
 function useFeedClient() {
   const context = useContext(SuprSendFeedContext);

@@ -1,4 +1,1 @@
-export {
-  default as SuprSendProvider,
-  SuprSendContext,
-} from './SuprSendProvider';
+export { default as SuprSendProvider } from './SuprSendProvider';
