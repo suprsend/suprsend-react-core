@@ -1,6 +1,6 @@
 {
   "name": "@suprsend/react-hooks",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "The react headless library for using SuprSend features like inbox, preferences etc",
   "author": "SuprSend Developers",
   "type": "module",
@@ -50,7 +50,9 @@
     "vite": "^5.4.10",
     "vite-plugin-dts": "^4.3.0"
   },
-  "dependencies": {
-    "@suprsend/web-sdk": "/Users/work/suprsend/sdk/suprsend-web-sdk/suprsend-web-sdk-2.0.1-test3.1.tgz"
-  }
+  "peerDependencies": {
+    "react": ">= 16.8.0",
+    "@suprsend/web-sdk": ">= 3.0.0"
+  },
+  "dependencies": {}
 }

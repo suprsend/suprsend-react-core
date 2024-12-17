@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useRef, useMemo } from 'react';
+import { createContext, useState, useEffect, useRef } from 'react';
 import { SuprSend } from '@suprsend/web-sdk';
 import {
   IAuthenticateUserOptions,
@@ -27,19 +27,19 @@ function SuprSendProvider({
   children,
   userAuthenticationHandler,
 }: SuprSendProviderProps) {
-  const suprsendClientRef = useRef<SuprSend>();
-  const [authenticatedUser, setAuthenticatedUser] = useState<unknown>(null);
-
-  suprsendClientRef.current = useMemo(() => {
+  const createSSClient = () => {
     return new SuprSend(publicApiKey, {
       host,
       vapidKey,
       swFileName,
     });
-  }, []);
+  };
+
+  const suprsendClientRef = useRef<SuprSend>(createSSClient());
+  const [authenticatedUser, setAuthenticatedUser] = useState<unknown>(null);
 
   const handleInternalUserAuthentication = async () => {
-    const suprsendClient = suprsendClientRef.current as SuprSend;
+    const suprsendClient = suprsendClientRef.current;
     const existingUser = suprsendClient.distinctId;
 
     const response = await authenticateUser({
@@ -64,7 +64,10 @@ function SuprSendProvider({
   };
 
   useEffect(() => {
-    handleInternalUserAuthentication();
+    setTimeout(() => {
+      suprsendClientRef.current = createSSClient();
+      handleInternalUserAuthentication();
+    }, 0);
 
     return () => {
       const suprsendClient = suprsendClientRef.current;
@@ -73,6 +76,12 @@ function SuprSendProvider({
       }
     };
   }, [distinctId]);
+
+  useEffect(() => {
+    if (userToken) {
+      suprsendClientRef.current.userToken = userToken;
+    }
+  }, [userToken]);
 
   return (
     <SuprSendContext.Provider
