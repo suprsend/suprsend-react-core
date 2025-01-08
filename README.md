@@ -2,6 +2,8 @@
 
 This library provides hooks and context providers to intergrate SuprSend features like InApp feed, Preferences etc in react applications.This is a wrapper around the [@suprsend/web-sdk](https://github.com/suprsend/suprsend-web-sdk). Use this library if you want to build UI from scratch. If you want react drop-in UI components, use [@suprsend/react](https://github.com/suprsend/suprsend-react-sdk).
 
+- Refer type definitions for this library [here](https://github.com/suprsend/suprsend-react-core/blob/main/src/interface.ts).
+
 ## Installation
 
 ```bash
