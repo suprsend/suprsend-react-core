@@ -1,6 +1,6 @@
 # SuprSend React Core SDK
 
-This library provides hooks and context providers to intergrate SuprSend features like InApp feed, Preferences etc in react applications.This is a wrapper around the [@suprsend/web-sdk](https://github.com/suprsend/suprsend-web-sdk). Use this library if you want to build UI from scratch. If you want react drop-in UI components, use [@suprsend/react](https://github.com/suprsend/suprsend-react-sdk).
+This library provides hooks and context providers to intergrate SuprSend features like InApp feed, Preferences etc in react applications. This is a wrapper around the [@suprsend/web-sdk](https://github.com/suprsend/suprsend-web-sdk). Use this library if you want to build UI from scratch. If you want react drop-in UI components, use [@suprsend/react](https://github.com/suprsend/suprsend-react-sdk).
 
 - Refer type definitions for this library [here](https://github.com/suprsend/suprsend-react-core/blob/main/src/interface.ts).
 
@@ -131,12 +131,18 @@ function MyComponent() {
 This hook is used to get Feed client instance. Using this instance you can access inapp feed methods like mark seen, archive, read etc. Use this hook inside SuprSendFeedProvider.
 
 ```javascript
-import { SuprSendProvider, SuprSendFeedProvider } from '@suprsend/react-core';
+import {
+  SuprSendProvider,
+  SuprSendFeedProvider,
+  useFeedClient,
+} from '@suprsend/react-core';
 
 function Example() {
   return (
     <SuprSendProvider publicApiKey={YOUR_KEY} distinctId={YOUR_DISTINCT_ID}>
-      <SuprSendFeedProvider>Your Feed code</SuprSendFeedProvider>
+      <SuprSendFeedProvider>
+        <MyComponent />
+      </SuprSendFeedProvider>
     </SuprSendProvider>
   );
 }
@@ -169,6 +175,8 @@ function MyComponent() {
 This hooks returns state that contains notification store data which includes notifications list and other meta data. This state gets updated internally when there is any update in store. Use this state to render UI in your application. Use this hook inside SuprSendFeedProvider.
 
 ```javascript
+import {useFeedData} from "@suprsend/core"
+
 function MyComponent() {
   const feedData = useFeedData();
 
