@@ -52,3 +52,36 @@ export interface SuprSendFeedContextProps {
 export interface SuprSendFeedProviderProps extends IFeedOptions {
   children: ReactNode;
 }
+
+export interface I18nContextProps {
+  language?: string;
+  translations?: ITranslations;
+}
+
+export interface SuprSendI18nProviderProps {
+  children?: ReactNode;
+  language?: string;
+  translations?: ITranslations;
+}
+
+export interface ITranslations {
+  notifications?: string;
+  markAllAsRead?: string;
+  noNotificationsTitle?: string;
+  noNotificationsDescription?: string;
+  pinned?: string;
+  markAsUnread?: string;
+  markAsRead?: string;
+  archive?: string;
+  expiresIn?: string;
+}
+
+export interface ILanguage {
+  language?: string;
+  translations?: ITranslations;
+}
+
+export interface ILanguages {
+  fr: ILanguage;
+  en: ILanguage;
+}
