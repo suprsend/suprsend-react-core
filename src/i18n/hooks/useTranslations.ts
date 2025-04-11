@@ -4,13 +4,13 @@ import { I18nContext, DEFAULT_LANGUAGE } from '../context/SuprSendI18nProvider';
 import { ITranslations, ILanguages } from '../../interface';
 
 const useTranslation = () => {
-  const { language, translations } = useContext(I18nContext);
+  const { locale, translations } = useContext(I18nContext);
 
   const t = useCallback(
     (key: keyof ITranslations) => {
       const finalLanguage =
-        language && language in languages
-          ? (language as keyof ILanguages)
+        locale && locale in languages
+          ? (locale as keyof ILanguages)
           : DEFAULT_LANGUAGE;
 
       // pick from user provided dictionary > pick from internal dictionary > fallback to key
@@ -20,10 +20,10 @@ const useTranslation = () => {
         key
       );
     },
-    [language, translations]
+    [locale, translations]
   );
 
-  return { t, language };
+  return { t, locale };
 };
 
 export default useTranslation;

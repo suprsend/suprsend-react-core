@@ -1,7 +1,7 @@
 import { ILanguage } from '../../interface';
 
 const es: ILanguage = {
-  language: 'es',
+  locale: 'es',
   translations: {
     notifications: 'Notificaciones',
     markAllAsRead: 'Marcar todo como leído',

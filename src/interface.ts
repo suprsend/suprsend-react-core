@@ -6,6 +6,7 @@ import {
   IFeedData,
   IFeedOptions,
   ApiResponse,
+  IStore,
 } from '@suprsend/web-sdk';
 
 export interface SuprSendContextProps {
@@ -47,6 +48,7 @@ export interface IHandleUserAuthenticationOptions
 export interface SuprSendFeedContextProps {
   feedClient?: Feed;
   feedData?: IFeedData;
+  stores?: IStore[] | null;
 }
 
 export interface SuprSendFeedProviderProps extends IFeedOptions {
@@ -54,13 +56,13 @@ export interface SuprSendFeedProviderProps extends IFeedOptions {
 }
 
 export interface I18nContextProps {
-  language?: string;
+  locale?: string;
   translations?: ITranslations;
 }
 
 export interface SuprSendI18nProviderProps {
   children?: ReactNode;
-  language?: string;
+  locale?: string;
   translations?: ITranslations;
 }
 
@@ -77,7 +79,7 @@ export interface ITranslations {
 }
 
 export interface ILanguage {
-  language?: string;
+  locale?: string;
   translations?: ITranslations;
 }
 

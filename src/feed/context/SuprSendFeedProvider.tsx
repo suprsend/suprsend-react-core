@@ -54,7 +54,7 @@ function SuprSendFeedProvider({
 
   return (
     <SuprSendFeedContext.Provider
-      value={{ feedClient: feedClientRef.current, feedData }}
+      value={{ feedClient: feedClientRef.current, feedData, stores }}
     >
       {children}
     </SuprSendFeedContext.Provider>

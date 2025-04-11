@@ -1,7 +1,7 @@
 import { ILanguage } from '../../interface';
 
 const ar: ILanguage = {
-  language: 'ar',
+  locale: 'ar',
   translations: {
     notifications: 'إشعارات',
     markAllAsRead: 'وضع علامة على الكل كمقروءة',
