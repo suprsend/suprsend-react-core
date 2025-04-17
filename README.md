@@ -79,6 +79,27 @@ interface IStore {
 }
 ```
 
+### SuprSendI18nProvider
+
+This provider can be used if you want to use internationalization. Wrap your inbox or feed components inside this. Pass `locale` prop to change language of the suprsend components. It defaults to english language and supports translations of below languages internally.
+
+- `en` - [English](https://github.com/suprsend/suprsend-react-core/blob/main/src/i18n/languages/en.ts#L5) (default)
+- `fr` - [French](https://github.com/suprsend/suprsend-react-core/blob/main/src/i18n/languages/fr.ts#L5)
+- `de` - [German](https://github.com/suprsend/suprsend-react-core/blob/main/src/i18n/languages/de.ts#L5)
+- `es` - [Spanish](https://github.com/suprsend/suprsend-react-core/blob/main/src/i18n/languages/es.ts#L5)
+- `ar` - [Arabic](https://github.com/suprsend/suprsend-react-core/blob/main/src/i18n/languages/ar.ts#L5)
+
+If you want to use other languages that are not supported by us or to override strings of existing languages, you can pass `translations` object as prop to `SuprSendI18nProvider`. View allowed keys inside translations object [here](https://github.com/suprsend/suprsend-react-core/blob/main/src/interface.ts#L69).
+
+```javascript Example
+<SuprSendI18nProvider
+  locale="fr"
+  translations={{ notifications: 'Test', markAllAsRead: 'Mark All Read' }}
+>
+  <Inbox />
+</SuprSendI18nProvider>
+```
+
 ## Hooks
 
 ### useSuprSendClient
@@ -182,5 +203,27 @@ function MyComponent() {
 
   const notificationsList = feedData.notifications;
   return <div>{notificationsList.map(notification)=><p>{notification.n_id}</p>}</div>;
+}
+```
+
+### useTranslations
+
+This should be used inside `SuprSendI18nProvider` and returns object that contains `t` a function that used to translate string based on locale and translations object you pass as props to `SuprSendI18nProvider`.
+
+```javascript
+import { useTranslations, SuprSendI18nProvider } from '@suprsend/core';
+
+function ParentComponent() {
+  return (
+    <SuprSendI18nProvider locale="fr">
+      <MyComponent />
+    </SuprSendI18nProvider>
+  );
+}
+
+function MyComponent() {
+  const { t } = useTranslations();
+
+  return <p>{t('notifications')}</p>;
 }
 ```

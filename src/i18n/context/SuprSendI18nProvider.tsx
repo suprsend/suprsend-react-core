@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import { createContext } from 'react';
 import { I18nContextProps, SuprSendI18nProviderProps } from '../../interface';
 
 export const DEFAULT_LANGUAGE = 'en';
@@ -8,11 +8,11 @@ export const I18nContext = createContext<I18nContextProps>({
   translations: {},
 });
 
-const SuprSendI18nProvider: React.FC<SuprSendI18nProviderProps> = ({
+const SuprSendI18nProvider = ({
   children,
   locale = DEFAULT_LANGUAGE,
   translations = {},
-}) => {
+}: SuprSendI18nProviderProps) => {
   return (
     <I18nContext.Provider value={{ locale, translations }}>
       {children}
