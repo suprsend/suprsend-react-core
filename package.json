@@ -1,6 +1,6 @@
 {
   "name": "@suprsend/react-core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The react headless library for using SuprSend features like inbox, preferences etc",
   "author": "SuprSend Developers",
   "type": "module",
