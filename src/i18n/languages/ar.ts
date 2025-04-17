@@ -12,6 +12,18 @@ const ar: ILanguage = {
     markAsRead: 'وضع علامة كمقروءة',
     archive: 'أرشيف',
     expiresIn: 'تنتهي في',
+    minute: 'دقيقة',
+    minutes: 'دقائق',
+    hour: 'ساعة',
+    hours: 'ساعات',
+    day: 'يوم',
+    days: 'أيام',
+    week: 'أسبوع',
+    weeks: 'أسابيع',
+    month: 'شهر',
+    months: 'أشهر',
+    year: 'سنة',
+    years: 'سنوات',
   },
 };
 

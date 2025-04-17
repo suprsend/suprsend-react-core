@@ -13,6 +13,18 @@ const de: ILanguage = {
     markAsRead: 'Als gelesen markieren',
     archive: 'Archiv',
     expiresIn: 'Läuft ab in',
+    minute: 'Minute',
+    minutes: 'Minuten',
+    hour: 'Stunde',
+    hours: 'Stunden',
+    day: 'Tag',
+    days: 'Tage',
+    week: 'Woche',
+    weeks: 'Wochen',
+    month: 'Monat',
+    months: 'Monate',
+    year: 'Jahr',
+    years: 'Jahre',
   },
 };
 

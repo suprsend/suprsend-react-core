@@ -76,6 +76,18 @@ export interface ITranslations {
   markAsRead?: string;
   archive?: string;
   expiresIn?: string;
+  minute?: string;
+  minutes?: string;
+  hour?: string;
+  hours?: string;
+  day?: string;
+  days?: string;
+  week?: string;
+  weeks?: string;
+  month?: string;
+  months?: string;
+  year?: string;
+  years?: string;
 }
 
 export interface ILanguage {
@@ -86,4 +98,7 @@ export interface ILanguage {
 export interface ILanguages {
   fr: ILanguage;
   en: ILanguage;
+  es: ILanguage;
+  de: ILanguage;
+  ar: ILanguage;
 }
