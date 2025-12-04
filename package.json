@@ -62,6 +62,6 @@
     "react": ">= 16.8.0"
   },
   "dependencies": {
-    "@suprsend/web-sdk": "^4.0.4"
+    "@suprsend/web-sdk": "^4.1.0"
   }
 }
