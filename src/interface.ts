@@ -24,6 +24,7 @@ export interface SuprSendProviderProps {
   swFileName?: string;
   refreshUserToken?: RefreshTokenCallback;
   children: ReactNode;
+  createUser?: boolean;
   userAuthenticationHandler?: ({
     response,
     authenticateUser,
@@ -37,6 +38,7 @@ export interface IAuthenticateUserOptions {
   distinctId: unknown;
   userToken?: string;
   refreshUserToken?: RefreshTokenCallback;
+  createUser?: boolean;
 }
 
 export interface IHandleUserAuthenticationOptions

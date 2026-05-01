@@ -26,6 +26,7 @@ function SuprSendProvider({
   refreshUserToken,
   children,
   userAuthenticationHandler,
+  createUser,
 }: SuprSendProviderProps) {
   const createSSClient = () => {
     return new SuprSend(publicApiKey, {
@@ -46,6 +47,7 @@ function SuprSendProvider({
       distinctId,
       userToken,
       refreshUserToken,
+      createUser,
       suprsendClient: suprsendClient,
     });
 

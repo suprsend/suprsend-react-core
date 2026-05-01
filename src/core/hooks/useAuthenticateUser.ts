@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ApiResponse } from '@suprsend/web-sdk';
+import { ApiResponse, AuthenticateOptions } from '@suprsend/web-sdk';
 import {
   IHandleUserAuthenticationOptions,
   IAuthenticateUserOptions,
@@ -11,6 +11,7 @@ export async function authenticateUser({
   distinctId,
   userToken,
   refreshUserToken,
+  createUser,
   suprsendClient,
 }: IHandleUserAuthenticationOptions) {
   let response: ApiResponse;
@@ -23,11 +24,13 @@ export async function authenticateUser({
     if (distinctId) {
       response = await suprsendClient.identify(distinctId, userToken, {
         refreshUserToken,
+        createUser,
       });
     }
   } else {
     response = await suprsendClient.identify(distinctId, userToken, {
       refreshUserToken,
+      createUser,
     });
   }
 
@@ -38,6 +41,7 @@ export const handleUserAuthentication = async ({
   distinctId,
   userToken,
   refreshUserToken,
+  createUser,
   suprsendClient,
   setAuthenticatedUser,
 }: IHandleUserAuthenticationOptions) => {
@@ -45,6 +49,7 @@ export const handleUserAuthentication = async ({
     distinctId,
     userToken,
     refreshUserToken,
+    createUser,
     suprsendClient,
   });
 
