@@ -23,6 +23,8 @@ function SuprSendProvider({
   host,
   vapidKey,
   swFileName,
+  appInfo,
+  clientUserAgent,
   refreshUserToken,
   children,
   userAuthenticationHandler,
@@ -33,6 +35,8 @@ function SuprSendProvider({
       host,
       vapidKey,
       swFileName,
+      appInfo,
+      clientUserAgent,
     });
   };
 

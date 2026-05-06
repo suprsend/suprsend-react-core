@@ -7,6 +7,8 @@ import {
   IFeedOptions,
   ApiResponse,
   IStore,
+  AppInfo,
+  ClientUserAgentConfig,
 } from '@suprsend/web-sdk';
 
 export interface SuprSendContextProps {
@@ -22,6 +24,8 @@ export interface SuprSendProviderProps {
   host?: string;
   vapidKey?: string;
   swFileName?: string;
+  appInfo?: AppInfo;
+  clientUserAgent?: ClientUserAgentConfig;
   refreshUserToken?: RefreshTokenCallback;
   children: ReactNode;
   createUser?: boolean;

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ApiResponse, AuthenticateOptions } from '@suprsend/web-sdk';
+import { ApiResponse } from '@suprsend/web-sdk';
 import {
   IHandleUserAuthenticationOptions,
   IAuthenticateUserOptions,
