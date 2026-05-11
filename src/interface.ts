@@ -55,6 +55,7 @@ export interface SuprSendFeedContextProps {
   feedClient?: Feed;
   feedData?: IFeedData;
   stores?: IStore[] | null;
+  refresh: () => void;
 }
 
 export interface SuprSendFeedProviderProps extends IFeedOptions {
