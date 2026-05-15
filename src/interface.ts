@@ -7,6 +7,8 @@ import {
   IFeedOptions,
   ApiResponse,
   IStore,
+  AppInfo,
+  ClientUserAgentConfig,
 } from '@suprsend/web-sdk';
 
 export interface SuprSendContextProps {
@@ -22,8 +24,11 @@ export interface SuprSendProviderProps {
   host?: string;
   vapidKey?: string;
   swFileName?: string;
+  appInfo?: AppInfo;
+  clientUserAgent?: ClientUserAgentConfig;
   refreshUserToken?: RefreshTokenCallback;
   children: ReactNode;
+  createUser?: boolean;
   userAuthenticationHandler?: ({
     response,
     authenticateUser,
@@ -37,6 +42,7 @@ export interface IAuthenticateUserOptions {
   distinctId: unknown;
   userToken?: string;
   refreshUserToken?: RefreshTokenCallback;
+  createUser?: boolean;
 }
 
 export interface IHandleUserAuthenticationOptions
@@ -49,6 +55,7 @@ export interface SuprSendFeedContextProps {
   feedClient?: Feed;
   feedData?: IFeedData;
   stores?: IStore[] | null;
+  refresh: () => void;
 }
 
 export interface SuprSendFeedProviderProps extends IFeedOptions {

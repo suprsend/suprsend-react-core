@@ -9,6 +9,7 @@ import {
   authenticateUser,
   handleUserAuthentication,
 } from '../hooks/useAuthenticateUser';
+import { name as SDK_NAME, version as SDK_VERSION } from '../../../package.json';
 
 export const SuprSendContext = createContext<SuprSendContextProps>({
   suprsendClient: undefined,
@@ -23,15 +24,24 @@ function SuprSendProvider({
   host,
   vapidKey,
   swFileName,
+  appInfo,
+  clientUserAgent,
   refreshUserToken,
   children,
   userAuthenticationHandler,
+  createUser,
 }: SuprSendProviderProps) {
   const createSSClient = () => {
     return new SuprSend(publicApiKey, {
       host,
       vapidKey,
       swFileName,
+      appInfo,
+      clientUserAgent: {
+        sdk: SDK_NAME,
+        sdk_version: SDK_VERSION,
+        ...clientUserAgent,
+      },
     });
   };
 
@@ -46,6 +56,7 @@ function SuprSendProvider({
       distinctId,
       userToken,
       refreshUserToken,
+      createUser,
       suprsendClient: suprsendClient,
     });
 
