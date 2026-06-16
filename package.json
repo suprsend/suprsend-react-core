@@ -58,7 +58,6 @@
     "vite-plugin-dts": "^4.3.0"
   },
   "peerDependencies": {
-    "@suprsend/web-sdk": ">= 3.0.0",
     "react": ">= 16.8.0"
   },
   "dependencies": {
