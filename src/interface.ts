@@ -21,6 +21,7 @@ export interface SuprSendProviderProps {
   publicApiKey: string;
   distinctId?: unknown;
   userToken?: string;
+  tenantId?: string;
   host?: string;
   vapidKey?: string;
   swFileName?: string;
@@ -41,6 +42,7 @@ export interface SuprSendProviderProps {
 export interface IAuthenticateUserOptions {
   distinctId: unknown;
   userToken?: string;
+  tenantId?: string;
   refreshUserToken?: RefreshTokenCallback;
   createUser?: boolean;
 }

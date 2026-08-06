@@ -9,7 +9,10 @@ import {
   authenticateUser,
   handleUserAuthentication,
 } from '../hooks/useAuthenticateUser';
-import { name as SDK_NAME, version as SDK_VERSION } from '../../../package.json';
+import {
+  name as SDK_NAME,
+  version as SDK_VERSION,
+} from '../../../package.json';
 
 export const SuprSendContext = createContext<SuprSendContextProps>({
   suprsendClient: undefined,
@@ -21,6 +24,7 @@ function SuprSendProvider({
   publicApiKey,
   distinctId,
   userToken,
+  tenantId,
   host,
   vapidKey,
   swFileName,
@@ -46,6 +50,7 @@ function SuprSendProvider({
   };
 
   const suprsendClientRef = useRef<SuprSend>(createSSClient());
+  const tenantIdRef = useRef(tenantId);
   const [authenticatedUser, setAuthenticatedUser] = useState<unknown>(null);
 
   const handleInternalUserAuthentication = async () => {
@@ -55,6 +60,7 @@ function SuprSendProvider({
     const response = await authenticateUser({
       distinctId,
       userToken,
+      tenantId: tenantIdRef.current,
       refreshUserToken,
       createUser,
       suprsendClient: suprsendClient,
@@ -93,6 +99,14 @@ function SuprSendProvider({
       suprsendClientRef.current.userToken = userToken;
     }
   }, [userToken]);
+
+  useEffect(() => {
+    tenantIdRef.current = tenantId;
+    // before identification, tenantId is held in ref and applied during identify
+    if (suprsendClientRef.current.isIdentified()) {
+      suprsendClientRef.current.changeTenant(tenantId ?? null);
+    }
+  }, [tenantId]);
 
   return (
     <SuprSendContext.Provider
