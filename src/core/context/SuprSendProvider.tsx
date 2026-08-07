@@ -1,4 +1,10 @@
-import { createContext, useState, useEffect, useRef } from 'react';
+import {
+  createContext,
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+} from 'react';
 import { SuprSend } from '@suprsend/web-sdk';
 import {
   IAuthenticateUserOptions,
@@ -9,18 +15,27 @@ import {
   authenticateUser,
   handleUserAuthentication,
 } from '../hooks/useAuthenticateUser';
-import { name as SDK_NAME, version as SDK_VERSION } from '../../../package.json';
+import {
+  name as SDK_NAME,
+  version as SDK_VERSION,
+} from '../../../package.json';
 
 export const SuprSendContext = createContext<SuprSendContextProps>({
   suprsendClient: undefined,
   authenticatedUser: undefined,
   setAuthenticatedUser: undefined,
+  tenantId: undefined,
 });
+
+// no-op on server where layout effects don't run, avoids SSR warning
+const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 function SuprSendProvider({
   publicApiKey,
   distinctId,
   userToken,
+  tenantId,
   host,
   vapidKey,
   swFileName,
@@ -46,6 +61,7 @@ function SuprSendProvider({
   };
 
   const suprsendClientRef = useRef<SuprSend>(createSSClient());
+  const tenantIdRef = useRef(tenantId);
   const [authenticatedUser, setAuthenticatedUser] = useState<unknown>(null);
 
   const handleInternalUserAuthentication = async () => {
@@ -55,6 +71,7 @@ function SuprSendProvider({
     const response = await authenticateUser({
       distinctId,
       userToken,
+      tenantId: tenantIdRef.current,
       refreshUserToken,
       createUser,
       suprsendClient: suprsendClient,
@@ -94,12 +111,23 @@ function SuprSendProvider({
     }
   }, [userToken]);
 
+  // layout effect so the client's tenant is updated before children's effects
+  // (eg. feed re-initialization) read it
+  useIsomorphicLayoutEffect(() => {
+    tenantIdRef.current = tenantId;
+    // before identification, tenantId is held in ref and applied during identify
+    if (suprsendClientRef.current.isIdentified()) {
+      suprsendClientRef.current.changeTenant(tenantId ?? null);
+    }
+  }, [tenantId]);
+
   return (
     <SuprSendContext.Provider
       value={{
         suprsendClient: suprsendClientRef.current,
         authenticatedUser,
         setAuthenticatedUser,
+        tenantId,
       }}
     >
       {children}

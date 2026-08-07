@@ -34,6 +34,7 @@ interface SuprSendProviderProps {
   publicApiKey: string;
   distinctId?: unknown;
   userToken?: string; // jwt token needed when enhanced security mode is enabled
+  tenantId?: string; // only needed in multi-tenant workspaces, scopes user's events, preferences and feed to that tenant
   host?: string; // custom host url
   refreshUserToken?: (
     oldUserToken: string,
@@ -44,6 +45,9 @@ interface SuprSendProviderProps {
   userAuthenticationHandler?: ({ response: ApiResponse }) => void; // callback will be called after internally authenticating user.
 }
 ```
+
+> **Note**
+> `tenantId` must match `scope.tenant_id` in the `userToken` payload, else it raises a scoping error. Changing the `tenantId` prop switches the active tenant of identified user. Feeds created by `SuprSendFeedProvider` re-initialize automatically to reflect the new tenant, unless pinned with their own `tenantId`. Previously fetched preferences keep the tenant they were fetched with - call `getPreferences` again to load the new tenant's data.
 
 ## SuprSendFeedProvider
 
@@ -78,6 +82,8 @@ interface IStore {
   };
 }
 ```
+
+`tenantId` defaults to the active tenant set in `SuprSendProvider`, else the `default` tenant. Passing it here pins the feed instance to that tenant - it takes priority over the active tenant and the feed ignores later tenant changes. Without it, the feed re-initializes automatically whenever the active tenant changes.
 
 ### SuprSendI18nProvider
 

@@ -656,10 +656,10 @@
   resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.2.tgz#821f8442f4175d8f0467b9daf26e3a18e2d02af2"
   integrity sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==
 
-"@suprsend/web-sdk@^4.4.0":
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/@suprsend/web-sdk/-/web-sdk-4.4.0.tgz#92774667f8008b37687200935b14ab9610dad3d6"
-  integrity sha512-VB2JaYuLFHWF4lc74P+3RBF/IXtybNDXxz/6EC80UNTP1X0jlqlt23SGXgnXpHEij8g3K17E/rA63mElfCxvHA==
+"@suprsend/web-sdk@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@suprsend/web-sdk/-/web-sdk-5.0.0.tgz#b8236dfba9fefafd70bfb23c39d20d74dfa1c586"
+  integrity sha512-pksr0fvYVCkR0pspWOX/48oH3hFfTBAnyTd+qoaGlcYE2cc5Gmi6TX3VFIHJAU+BbcHDdc4G+7Dkem8aUbto6w==
   dependencies:
     jwt-decode "3.1.2"
     mitt "^3.0.1"

@@ -30,6 +30,8 @@ function SuprSendFeedProvider({
   const feedClientRef = useRef<Feed>();
   const [feedData, setFeedData] = useState<IFeedData>();
 
+  const activeTenantId = tenantId || ssContext.tenantId;
+
   const initializeFeed = useCallback(() => {
     feedClientRef.current?.remove();
     feedClientRef.current = undefined;
@@ -37,7 +39,7 @@ function SuprSendFeedProvider({
     if (!ssContext.authenticatedUser) return;
 
     const feedClient = suprsendClient.feeds.initialize({
-      tenantId,
+      tenantId: activeTenantId,
       stores,
       host,
       pageSize,
@@ -52,7 +54,14 @@ function SuprSendFeedProvider({
 
     feedClient.initializeSocketConnection();
     feedClient.fetch();
-  }, [ssContext.authenticatedUser, suprsendClient, tenantId, stores, host, pageSize]);
+  }, [
+    ssContext.authenticatedUser,
+    suprsendClient,
+    activeTenantId,
+    stores,
+    host,
+    pageSize,
+  ]);
 
   useEffect(() => {
     initializeFeed();
@@ -61,7 +70,7 @@ function SuprSendFeedProvider({
       feedClientRef.current = undefined;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ssContext.authenticatedUser]);
+  }, [ssContext.authenticatedUser, activeTenantId]);
 
   const refresh = initializeFeed;
 

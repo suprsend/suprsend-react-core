@@ -15,12 +15,14 @@ export interface SuprSendContextProps {
   suprsendClient: SuprSend | undefined;
   authenticatedUser: unknown;
   setAuthenticatedUser: Dispatch<SetStateAction<unknown>> | undefined;
+  tenantId?: string;
 }
 
 export interface SuprSendProviderProps {
   publicApiKey: string;
   distinctId?: unknown;
   userToken?: string;
+  tenantId?: string;
   host?: string;
   vapidKey?: string;
   swFileName?: string;
@@ -41,6 +43,7 @@ export interface SuprSendProviderProps {
 export interface IAuthenticateUserOptions {
   distinctId: unknown;
   userToken?: string;
+  tenantId?: string;
   refreshUserToken?: RefreshTokenCallback;
   createUser?: boolean;
 }

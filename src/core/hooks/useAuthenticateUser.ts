@@ -10,6 +10,7 @@ import { SuprSendContext } from '../context/SuprSendProvider';
 export async function authenticateUser({
   distinctId,
   userToken,
+  tenantId,
   refreshUserToken,
   createUser,
   suprsendClient,
@@ -23,12 +24,14 @@ export async function authenticateUser({
     response = await suprsendClient?.reset();
     if (distinctId) {
       response = await suprsendClient.identify(distinctId, userToken, {
+        tenantId,
         refreshUserToken,
         createUser,
       });
     }
   } else {
     response = await suprsendClient.identify(distinctId, userToken, {
+      tenantId,
       refreshUserToken,
       createUser,
     });
@@ -40,6 +43,7 @@ export async function authenticateUser({
 export const handleUserAuthentication = async ({
   distinctId,
   userToken,
+  tenantId,
   refreshUserToken,
   createUser,
   suprsendClient,
@@ -48,6 +52,7 @@ export const handleUserAuthentication = async ({
   const response = await authenticateUser({
     distinctId,
     userToken,
+    tenantId,
     refreshUserToken,
     createUser,
     suprsendClient,
