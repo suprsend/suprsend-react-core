@@ -47,7 +47,7 @@ interface SuprSendProviderProps {
 ```
 
 > **Note**
-> `tenantId` must match `scope.tenant_id` in the `userToken` payload, else it raises a scoping error. Changing the `tenantId` prop switches the active tenant of identified user (internally calls `changeTenant`). If it is set or changed before the user is identified, it is applied automatically once identification completes. Already running feed instances keep the tenant they were initialized with - re-initialize the feed to reflect the new tenant, and call `getPreferences` again to load the new tenant's data.
+> `tenantId` must match `scope.tenant_id` in the `userToken` payload, else it raises a scoping error. Changing the `tenantId` prop switches the active tenant of identified user. Feeds created by `SuprSendFeedProvider` re-initialize automatically to reflect the new tenant, unless pinned with their own `tenantId`. Previously fetched preferences keep the tenant they were fetched with - call `getPreferences` again to load the new tenant's data.
 
 ## SuprSendFeedProvider
 
@@ -83,7 +83,7 @@ interface IStore {
 }
 ```
 
-`tenantId` defaults to the active tenant set in `SuprSendProvider`, else the `default` tenant. Passing it here overrides the active tenant for that feed instance.
+`tenantId` defaults to the active tenant set in `SuprSendProvider`, else the `default` tenant. Passing it here pins the feed instance to that tenant - it takes priority over the active tenant and the feed ignores later tenant changes. Without it, the feed re-initializes automatically whenever the active tenant changes.
 
 ### SuprSendI18nProvider
 

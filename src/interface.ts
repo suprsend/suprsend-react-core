@@ -15,6 +15,7 @@ export interface SuprSendContextProps {
   suprsendClient: SuprSend | undefined;
   authenticatedUser: unknown;
   setAuthenticatedUser: Dispatch<SetStateAction<unknown>> | undefined;
+  tenantId?: string;
 }
 
 export interface SuprSendProviderProps {
