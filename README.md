@@ -12,6 +12,7 @@ We offer two SDKs for React applications:
 - [Events and User methods](docs/events-and-user-methods.md)
 - [Preferences](docs/preferences.md)
 - [InApp Feed](docs/inbox.md)
+- [Inbox Internationalization](docs/language-support.md)
 
 Refer type definitions for this library [here](src/interface.ts).
 
