@@ -6,6 +6,15 @@ We offer two SDKs for React applications:
 
 - [@suprsend/react](https://github.com/suprsend/suprsend-react-sdk): Built on top of `@suprsend/react-core`, so it includes all the hooks, context providers, and methods available there. In addition, it offers drop-in components like Inbox, NotificationFeed, and Preferences with prebuilt UI to ease integration.
 
+## Documentation
+
+- [WebPush](docs/webpush.md)
+- [Events and User methods](docs/events-and-user-methods.md)
+- [Preferences](docs/preferences.md)
+- [InApp Feed](docs/inbox.md)
+
+Refer type definitions for this library [here](src/interface.ts).
+
 ## Installation
 
 ```bash
