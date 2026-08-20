@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.1.0
+
+### Changed
+
+- Upgraded `@suprsend/web-sdk` dependency to `^5.1.0`. The changes in this release come from the web-sdk, see the [web-sdk 5.1.0 changelog](https://github.com/suprsend/suprsend-web-sdk/blob/main/CHANGELOG.md#510) for details:
+
+### Notes
+
+- No integration changes are needed.
+
+[2.1.0]: https://github.com/suprsend/suprsend-react-core/compare/v2.0.0...v2.1.0
+
 ## 2.0.0
 
 ### Added
