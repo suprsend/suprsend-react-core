@@ -105,17 +105,15 @@ function SuprSendProvider({
     };
   }, [distinctId]);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (userToken) {
       suprsendClientRef.current.userToken = userToken;
     }
   }, [userToken]);
 
-  // layout effect so the client's tenant is updated before children's effects
-  // (eg. feed re-initialization) read it
   useIsomorphicLayoutEffect(() => {
     tenantIdRef.current = tenantId;
-    // before identification, tenantId is held in ref and applied during identify
+
     if (suprsendClientRef.current.isIdentified()) {
       suprsendClientRef.current.changeTenant(tenantId ?? null);
     }
