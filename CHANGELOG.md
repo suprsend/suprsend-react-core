@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.2.0
+
+### Added
+
+- `SuprSendProvider` now accepts a `pushTokenActionOnTenantChange` prop (`'none' | 'copy' | 'move'`, defaults to `'none'`). It controls what happens to the existing webpush subscription when the `tenantId` prop changes: `copy` attaches it to the new tenant as well, `move` detaches it from the current tenant and attaches it to the new tenant. If the device has no push subscription, the tenant switch still succeeds. No changes are needed if you don't use webpush with multiple tenants.
+- `SuprSendProvider` now accepts a `tenantChangeHandler` callback, invoked with the `changeTenant` response whenever a `tenantId` prop change switches the active tenant of the identified user. Use it to detect a failed switch, in which case the previous tenant stays active.
+
+### Changed
+
+- Upgraded `@suprsend/web-sdk` dependency to `^5.2.0`, which adds the `pushTokenAction` option to `changeTenant` ([web-sdk changelog](https://github.com/suprsend/suprsend-web-sdk/blob/main/CHANGELOG.md#520)).
+
+[2.2.0]: https://github.com/suprsend/suprsend-react-core/compare/v2.1.0...v2.2.0
+
 ## 2.1.0
 
 ### Changed
