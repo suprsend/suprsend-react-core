@@ -36,6 +36,8 @@ function SuprSendProvider({
   distinctId,
   userToken,
   tenantId,
+  pushTokenActionOnTenantChange,
+  tenantChangeHandler,
   host,
   vapidKey,
   swFileName,
@@ -114,9 +116,16 @@ function SuprSendProvider({
   useIsomorphicLayoutEffect(() => {
     tenantIdRef.current = tenantId;
 
-    if (suprsendClientRef.current.isIdentified()) {
-      suprsendClientRef.current.changeTenant(tenantId ?? null);
-    }
+    const suprsendClient = suprsendClientRef.current;
+    if (!suprsendClient.isIdentified()) return;
+
+    suprsendClient
+      .changeTenant(tenantId ?? null, {
+        pushTokenAction: pushTokenActionOnTenantChange,
+      })
+      .then((response) => {
+        tenantChangeHandler?.({ tenantId, response });
+      });
   }, [tenantId]);
 
   return (

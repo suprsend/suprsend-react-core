@@ -9,6 +9,7 @@ import {
   IStore,
   AppInfo,
   ClientUserAgentConfig,
+  PushTokenAction,
 } from '@suprsend/web-sdk';
 
 export interface SuprSendContextProps {
@@ -23,6 +24,14 @@ export interface SuprSendProviderProps {
   distinctId?: unknown;
   userToken?: string;
   tenantId?: string;
+  pushTokenActionOnTenantChange?: PushTokenAction;
+  tenantChangeHandler?: ({
+    tenantId,
+    response,
+  }: {
+    tenantId?: string;
+    response: ApiResponse;
+  }) => void;
   host?: string;
   vapidKey?: string;
   swFileName?: string;
