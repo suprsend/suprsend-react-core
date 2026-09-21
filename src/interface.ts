@@ -5,6 +5,7 @@ import {
   Feed,
   IFeedData,
   IFeedOptions,
+  IFeedReachability,
   ApiResponse,
   IStore,
   AppInfo,
@@ -66,6 +67,7 @@ export interface IHandleUserAuthenticationOptions
 export interface SuprSendFeedContextProps {
   feedClient?: Feed;
   feedData?: IFeedData;
+  reachability?: IFeedReachability;
   stores?: IStore[] | null;
   refresh: () => void;
 }
