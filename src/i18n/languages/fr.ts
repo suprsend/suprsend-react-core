@@ -25,6 +25,11 @@ const fr: ILanguage = {
     months: 'mois',
     year: 'an',
     years: 'ans',
+    connectionIssue:
+      'Un problème de connexion semble être survenu. Les nouvelles notifications peuvent être retardées ou perdues.',
+    offlineMessage:
+      'Vous êtes hors ligne. Les notifications se mettront à jour dès le retour de la connexion.',
+    reportIssue: 'Signaler un problème',
   },
 };
 

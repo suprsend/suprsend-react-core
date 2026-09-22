@@ -5,6 +5,7 @@
 ### Added
 
 - `SuprSendFeedProvider` now accepts a `reachability` prop (defaults to `false`). Opt in to know whether the feed is actually working for a user: whether the browser has internet, whether the feed socket is live and whether the client can reach the feed notifications API, combined into an `ONLINE | DEGRADED | OFFLINE | UNKNOWN` status. Read it as react state with `useFeed().reachability`, which is `undefined` when not opted in. [Read more](docs/inbox.md#tracking-reachability).
+- Three translation keys for connection-status copy: `connectionIssue`, `offlineMessage` and `reportIssue`. They ship for all five bundled locales and are overridable through `SuprSendI18nProvider` like every other key. `@suprsend/react` uses them to explain a degraded feed in the inbox UI.
 
 ### Changed
 

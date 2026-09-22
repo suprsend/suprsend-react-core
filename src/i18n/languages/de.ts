@@ -25,6 +25,11 @@ const de: ILanguage = {
     months: 'Monate',
     year: 'Jahr',
     years: 'Jahre',
+    connectionIssue:
+      'Es scheint ein Verbindungsproblem zu geben. Neue Benachrichtigungen können verzögert werden oder verloren gehen.',
+    offlineMessage:
+      'Du bist offline. Benachrichtigungen werden aktualisiert, sobald die Verbindung wieder da ist.',
+    reportIssue: 'Problem melden',
   },
 };
 

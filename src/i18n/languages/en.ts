@@ -25,6 +25,11 @@ const en: ILanguage = {
     months: 'months',
     year: 'year',
     years: 'years',
+    connectionIssue:
+      'There seems to be a connection issue. New notifications may get delayed or missed.',
+    offlineMessage:
+      "You're offline. Notifications will update when your connection is back.",
+    reportIssue: 'Report issue',
   },
 };
 
