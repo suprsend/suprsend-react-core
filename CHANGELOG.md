@@ -13,7 +13,7 @@
 
 ### Fixed
 
-- `useFeed` now throws its documented "must be used within a SuprSendProvider and SuprSendFeedProvider" error when called outside the provider. Its guard compared against `undefined` while the context defaults to `null`, so the error never fired and the hook's return type stayed nullable — which made `const { feedData } = useFeed()` fail to compile under `strict`. Destructuring from `useFeed()` now typechecks.
+- `useFeed` and `useFeedClient` now throw their documented "must be used within a SuprSendProvider and SuprSendFeedProvider" error when called outside the provider. Both guards compared against `undefined` while the context defaults to `null`, so the error never fired and the hooks' return types stayed nullable — which made `const { feedData } = useFeed()` fail to compile under `strict`. Destructuring from `useFeed()` now typechecks, and `useFeedClient()` returns `Feed` instead of `Feed | undefined`.
 
 ### Notes
 

@@ -171,9 +171,11 @@ interface IFeedReachability {
     lastSuccessAt?: number;
     lastFailureAt?: number;
   };
-  updatedAt: number;
+  lastChangedAt: number;
 }
 ```
+
+`lastChangedAt` moves only when the status or one of the two channels changes, not on every sample. The `lastSuccessAt` / `lastConnectedAt` timestamps keep advancing underneath it, so read those to know how fresh the evidence is.
 
 Each channel is `UNKNOWN`, `UP` or `DOWN`. A channel stays `UNKNOWN` until it has evidence, and a channel with no evidence is ignored.
 

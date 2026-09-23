@@ -41,6 +41,9 @@ interface ITranslations {
   months?: string;
   year?: string;
   years?: string;
+  connectionIssue?: string;
+  offlineMessage?: string;
+  reportIssue?: string;
 }
 ```
 
