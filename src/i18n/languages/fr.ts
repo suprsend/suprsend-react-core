@@ -25,11 +25,17 @@ const fr: ILanguage = {
     months: 'mois',
     year: 'an',
     years: 'ans',
+    connecting: 'Connexion en cours…',
     connectionIssue:
       'Un problème de connexion semble être survenu. Les nouvelles notifications peuvent être retardées ou perdues.',
     offlineMessage:
-      'Vous êtes hors ligne. Les notifications se mettront à jour dès le retour de la connexion.',
+      'Vous êtes hors ligne. Rechargez la page pour mettre à jour les notifications dès le retour de la connexion.',
+    authError:
+      'Impossible de récupérer les notifications en raison d’un problème d’authentification ou d’autorisation.',
     reportIssue: 'Signaler un problème',
+    refreshPage: 'Actualiser la page',
+    issueReported: 'Problème signalé',
+    reportLimitExceeded: 'Limite de signalements atteinte. Réessayez plus tard.',
   },
 };
 

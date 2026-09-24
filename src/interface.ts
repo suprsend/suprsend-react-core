@@ -109,9 +109,14 @@ export interface ITranslations {
   months?: string;
   year?: string;
   years?: string;
+  connecting?: string;
   connectionIssue?: string;
   offlineMessage?: string;
+  authError?: string;
   reportIssue?: string;
+  refreshPage?: string;
+  issueReported?: string;
+  reportLimitExceeded?: string;
 }
 
 export interface ILanguage {

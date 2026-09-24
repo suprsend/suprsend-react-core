@@ -179,18 +179,19 @@ interface IFeedReachability {
 
 Each channel is `UNKNOWN`, `UP` or `DOWN`. A channel stays `UNKNOWN` until it has evidence, and a channel with no evidence is ignored.
 
-| `status`   | Meaning                                                                                                                                                                                                                                                     |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `OFFLINE`  | The browser reports no internet connection. Takes precedence over the channels, which are reported as they were last observed.                                                                                                                              |
-| `UNKNOWN`  | The browser is online but neither channel has evidence yet.                                                                                                                                                                                                 |
-| `DEGRADED` | The browser is online and at least one channel is down. Socket up / API down means content will not load; API up / socket down means no realtime delivery; both down means the feed is not working at all while the browser still believes it has internet. |
-| `ONLINE`   | The browser is online and every channel with evidence is up.                                                                                                                                                                                                |
+| `status`     | Meaning                                                                                                                                                                                                                                                                                                      |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `OFFLINE`    | The browser reports no internet connection. Takes precedence over the channels, which are reported as they were last observed.                                                                                                                                                                               |
+| `UNKNOWN`    | The browser is online but neither channel has evidence yet.                                                                                                                                                                                                                                                  |
+| `DEGRADED`   | The browser is online and at least one channel is down. Socket up / API down means content will not load; API up / socket down means no realtime delivery; both down means the feed is not working at all while the browser still believes it has internet.                                                  |
+| `AUTH_ERROR` | The browser is online but the API answered the initial feed load with `401` or `403`: the user token is invalid, expired or lacks permission. Takes precedence over the socket state and clears on the next successful load (e.g. after the token is refreshed). `api.authError` is `true` while this holds. |
+| `ONLINE`     | The browser is online and every channel with evidence is up.                                                                                                                                                                                                                                                 |
 
 **What it measures**
 
 - **Internet** — from `navigator.onLine` and the `online`/`offline` window events. The browser only knows whether the device has a network link, so a captive portal or a dead uplink still reads as online; those show up as `DEGRADED` once a channel fails.
 - **Socket** — `UP` on connect, `DOWN` on disconnect or a failed connection. Unmounting the provider is not counted as a drop. `disconnectReason` carries socket.io's reason; `io server disconnect` means the server hung up and the client will not retry, so that `DOWN` is permanent for the life of the feed.
-- **API** — sampled on the initial feed load only, which includes a retry after a failed load, a store switch and a load after `reset`. Pagination and mark-as-read style calls are not sampled. Any answer from the server counts as `UP`, including a `401` or `404` — the URL was reachable, the request just failed.
+- **API** — sampled on the initial feed load only, which includes a retry after a failed load, a store switch and a load after `reset`. Pagination and mark-as-read style calls are not sampled. Any answer from the server counts as `UP`, including a `404` — the URL was reachable, the request just failed. The exception is `401` / `403`, which marks the API `DOWN` and sets `AUTH_ERROR`.
 
 **Limitations**
 
