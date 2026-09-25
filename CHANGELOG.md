@@ -4,22 +4,15 @@
 
 ### Added
 
-- `SuprSendFeedProvider` now accepts a `reachability` prop (defaults to `false`). Opt in to know whether the feed is actually working for a user: whether the browser has internet, whether the feed socket is live and whether the client can reach the feed notifications API, combined into an `ONLINE | DEGRADED | OFFLINE | UNKNOWN` status. Read it as react state with `useFeed().reachability`, which is `undefined` when not opted in. [Read more](docs/inbox.md#tracking-reachability).
-- Three translation keys for connection-status copy: `connectionIssue`, `offlineMessage` and `reportIssue`. They ship for all five bundled locales and are overridable through `SuprSendI18nProvider` like every other key. `@suprsend/react` uses them to explain a degraded feed in the inbox UI.
+- `SuprSendFeedProvider` now accepts a `reachability` prop (defaults to `false`). Opt in to know whether the feed is actually working for a user: whether the browser has internet, whether the feed socket is live and whether the client can reach the feed notifications API, combined into an `ONLINE | RECONNECTING | DEGRADED | AUTH_ERROR | OFFLINE | UNKNOWN` status. Read it as react state with `useFeed().reachability`, which is `undefined` when not opted in. [Read more](docs/inbox.md#tracking-reachability).
 
 ### Changed
 
 - Upgraded `@suprsend/web-sdk` dependency to `^5.3.0`, which adds feed reachability tracking ([web-sdk changelog](https://github.com/suprsend/suprsend-web-sdk/blob/main/CHANGELOG.md#530)).
 
-### Fixed
-
-- `useFeed` and `useFeedClient` now throw their documented "must be used within a SuprSendProvider and SuprSendFeedProvider" error when called outside the provider. Both guards compared against `undefined` while the context defaults to `null`, so the error never fired and the hooks' return types stayed nullable — which made `const { feedData } = useFeed()` fail to compile under `strict`. Destructuring from `useFeed()` now typechecks, and `useFeedClient()` returns `Feed` instead of `Feed | undefined`.
-
 ### Notes
 
-- Reachability is off by default and adds no network requests or timers, so no integration changes are needed.
-- The `reachability` prop is read only when the feed instance is created. Toggling it later has no effect, matching the existing behaviour of `stores`, `host` and `pageSize`.
-- The web-sdk upgrade also makes every feed acknowledge realtime notification events back to the server over the existing socket. This is not gated by the `reachability` prop and has no react-core API surface, but it ships for all consumers on this version.
+- Reachability is off by default so no integration changes are needed.
 
 [2.3.0]: https://github.com/suprsend/suprsend-react-core/compare/v2.2.0...v2.3.0
 

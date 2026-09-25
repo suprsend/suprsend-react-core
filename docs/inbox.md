@@ -38,7 +38,7 @@ interface SuprSendFeedProviderProps {
 | `pageSize`     | Number of notifications fetched per api call. Defaults to 20, maximum is 100.                                                                                                                                                                                                                                                                                                                                                     |
 | `stores`       | Pass it to segregate notifications into multiple tabs based on tags, preference categories and notification status like read, archived. [Read more](https://docs.suprsend.com/docs/multi-tabs).                                                                                                                                                                                                                                   |
 | `host`         | Overrides the default SuprSend API and socket host URLs, mainly needed in proxy setups.                                                                                                                                                                                                                                                                                                                                           |
-| `reachability` | Opt in to tracking whether the feed is actually working for this user. Defaults to `false`. Read only when the feed is created, so toggling it later has no effect. [Read more](#tracking-reachability).                                                                                                                                                                                                                          |
+| `reachability` | Opt in to tracking whether the feed is actually working for this user. Defaults to `false`. [Read more](#tracking-reachability).                                                                                                                                                                                                                                                                                                  |
 
 ### useFeedClient
 
@@ -126,11 +126,9 @@ function MyComponent() {
 
 ### Tracking reachability
 
-Pass `reachability` to `SuprSendFeedProvider` to know whether the feed is actually working for this user: whether the browser has internet, whether the socket is live, and whether the client can reach the feed notifications API. Useful for rendering a "reconnecting…" banner or debugging a user who reports missing notifications.
+Pass `reachability` to `SuprSendFeedProvider` to know whether the feed is working for this user: whether the browser has internet, the socket is live and the feed API is reachable. It is off by default. Useful for rendering a "No internet" banner or network not reachable banner.
 
-It is off by default, adds no extra network requests and runs no timers. The signal is derived from the browser's own connectivity state, the socket lifecycle and the outcome of feed loads that already happen.
-
-Read the current value with the `useFeed` hook. It is react state, so your component re-renders whenever the status changes, and it is `undefined` when you have not opted in.
+Read it with `useFeed().reachability`. Your component re-renders when it changes, and it is `undefined` when not opted in.
 
 ```javascript
 import {
@@ -150,7 +148,7 @@ function App() {
 function MyComponent() {
   const { reachability } = useFeed();
 
-  if (reachability?.status === ReachabilityStatus.DEGRADED) {
+  if (reachability?.status === ReachabilityStatus.RECONNECTING) {
     return <div>Reconnecting…</div>;
   }
   return <YourFeed />;
@@ -165,40 +163,28 @@ interface IFeedReachability {
     lastConnectedAt?: number;
     lastDisconnectedAt?: number;
     disconnectReason?: string;
+    reconnectAttempts?: number;
   };
   api: {
     status: ChannelStatus;
     lastSuccessAt?: number;
     lastFailureAt?: number;
+    authError?: boolean;
   };
   lastChangedAt: number;
 }
 ```
 
-`lastChangedAt` moves only when the status or one of the two channels changes, not on every sample. The `lastSuccessAt` / `lastConnectedAt` timestamps keep advancing underneath it, so read those to know how fresh the evidence is.
-
 Each channel is `UNKNOWN`, `UP` or `DOWN`. A channel stays `UNKNOWN` until it has evidence, and a channel with no evidence is ignored.
 
-| `status`     | Meaning                                                                                                                                                                                                                                                                                                      |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `OFFLINE`    | The browser reports no internet connection. Takes precedence over the channels, which are reported as they were last observed.                                                                                                                                                                               |
-| `UNKNOWN`    | The browser is online but neither channel has evidence yet.                                                                                                                                                                                                                                                  |
-| `DEGRADED`   | The browser is online and at least one channel is down. Socket up / API down means content will not load; API up / socket down means no realtime delivery; both down means the feed is not working at all while the browser still believes it has internet.                                                  |
-| `AUTH_ERROR` | The browser is online but the API answered the initial feed load with `401` or `403`: the user token is invalid, expired or lacks permission. Takes precedence over the socket state and clears on the next successful load (e.g. after the token is refreshed). `api.authError` is `true` while this holds. |
-| `ONLINE`     | The browser is online and every channel with evidence is up.                                                                                                                                                                                                                                                 |
-
-**What it measures**
-
-- **Internet** — from `navigator.onLine` and the `online`/`offline` window events. The browser only knows whether the device has a network link, so a captive portal or a dead uplink still reads as online; those show up as `DEGRADED` once a channel fails.
-- **Socket** — `UP` on connect, `DOWN` on disconnect or a failed connection. Unmounting the provider is not counted as a drop. `disconnectReason` carries socket.io's reason; `io server disconnect` means the server hung up and the client will not retry, so that `DOWN` is permanent for the life of the feed.
-- **API** — sampled on the initial feed load only, which includes a retry after a failed load, a store switch and a load after `reset`. Pagination and mark-as-read style calls are not sampled. Any answer from the server counts as `UP`, including a `404` — the URL was reachable, the request just failed. The exception is `401` / `403`, which marks the API `DOWN` and sets `AUTH_ERROR`.
-
-**Limitations**
-
-- It detects failed requests, not slow ones. A hung connection can still read `ONLINE` until the browser times out.
-- Because the API is sampled per load, an outage that begins after a successful load shows up on the socket channel first. The API channel follows when the load is retried.
-- A backgrounded tab reports stale state, since the browser throttles the timers socket.io uses to detect a dead connection.
-- Reconnection is reported up to 10s late, which is the socket retry backoff cap.
+| `status`       | Meaning                                                                                                                                      |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `OFFLINE`      | The browser reports no internet connection.                                                                                                  |
+| `UNKNOWN`      | The browser is online but neither channel has evidence yet. (occurs while the initial feed load and socket connection are still in progress) |
+| `RECONNECTING` | A socket that was connected earlier has dropped and is retrying automatically.                                                               |
+| `DEGRADED`     | The browser is online and at least one channel is down.                                                                                      |
+| `AUTH_ERROR`   | The browser is online but the API answered the initial feed load with `401` or `403`                                                         |
+| `ONLINE`       | The browser is online and every channel with evidence is up.                                                                                 |
 
 ### Understanding Notification Data Structure
 
