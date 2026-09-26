@@ -4,7 +4,7 @@
 
 ### Added
 
-- `SuprSendFeedProvider` now accepts a `reachability` prop (defaults to `false`). Opt in to know whether the feed is actually working for a user: whether the browser has internet, whether the feed socket is live and whether the client can reach the feed notifications API, combined into an `ONLINE | RECONNECTING | DEGRADED | AUTH_ERROR | OFFLINE | UNKNOWN` status. Read it as react state with `useFeed().reachability`, which is `undefined` when not opted in. [Read more](docs/inbox.md#tracking-reachability).
+- `SuprSendFeedProvider` now accepts a `reachability` prop (defaults to `false`). Opt in to know whether the feed is actually working for a user: whether the browser has internet, whether the feed socket is live and whether the client can reach the feed notifications API, combined into an `ONLINE | CONNECTING | DEGRADED | AUTH_ERROR | OFFLINE | UNKNOWN` status. Read it as react state with `useFeed().reachability`, which is `undefined` when not opted in. [Read more](docs/inbox.md#tracking-reachability).
 
 ### Changed
 

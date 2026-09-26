@@ -148,8 +148,8 @@ function App() {
 function MyComponent() {
   const { reachability } = useFeed();
 
-  if (reachability?.status === ReachabilityStatus.RECONNECTING) {
-    return <div>Reconnecting…</div>;
+  if (reachability?.status === ReachabilityStatus.CONNECTING) {
+    return <div>Connecting…</div>;
   }
   return <YourFeed />;
 }
@@ -175,16 +175,16 @@ interface IFeedReachability {
 }
 ```
 
-Each channel is `UNKNOWN`, `UP` or `DOWN`. A channel stays `UNKNOWN` until it has evidence, and a channel with no evidence is ignored.
+Each channel is `UNKNOWN`, `CONNECTING`, `UP` or `DOWN`. A channel stays `UNKNOWN` until it is used, and an `UNKNOWN` channel is ignored.
 
-| `status`       | Meaning                                                                                                                                      |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `OFFLINE`      | The browser reports no internet connection.                                                                                                  |
-| `UNKNOWN`      | The browser is online but neither channel has evidence yet. (occurs while the initial feed load and socket connection are still in progress) |
-| `RECONNECTING` | A socket that was connected earlier has dropped and is retrying automatically.                                                               |
-| `DEGRADED`     | The browser is online and at least one channel is down.                                                                                      |
-| `AUTH_ERROR`   | The browser is online but the API answered the initial feed load with `401` or `403`                                                         |
-| `ONLINE`       | The browser is online and every channel with evidence is up.                                                                                 |
+| `status`     | Meaning                                                                                         |
+| ------------ | ----------------------------------------------------------------------------------------------- |
+| `OFFLINE`    | The browser reports no internet connection.                                                     |
+| `UNKNOWN`    | The browser is online but neither channel has been used yet.                                    |
+| `CONNECTING` | No channel is down and at least one is `CONNECTING` (initial load, socket connect or retrying). |
+| `DEGRADED`   | The browser is online and at least one channel is down.                                         |
+| `AUTH_ERROR` | The browser is online but the API answered the initial feed load with `401` or `403`            |
+| `ONLINE`     | The browser is online and every channel in use is up.                                           |
 
 ### Understanding Notification Data Structure
 
