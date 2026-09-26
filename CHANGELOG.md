@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.3.0
+
+### Added
+
+- `SuprSendFeedProvider` now accepts a `reachability` prop (defaults to `false`). Opt in to know whether the feed is actually working for a user: whether the browser has internet, whether the feed socket is live and whether the client can reach the feed notifications API, combined into an `ONLINE | CONNECTING | DEGRADED | AUTH_ERROR | OFFLINE | UNKNOWN` status. Read it as react state with `useFeed().reachability`, which is `undefined` when not opted in. [Read more](docs/inbox.md#tracking-reachability).
+
+### Changed
+
+- Upgraded `@suprsend/web-sdk` dependency to `^5.3.0`, which adds feed reachability tracking ([web-sdk changelog](https://github.com/suprsend/suprsend-web-sdk/blob/main/CHANGELOG.md#530)).
+
+### Notes
+
+- Reachability is off by default so no integration changes are needed.
+
+[2.3.0]: https://github.com/suprsend/suprsend-react-core/compare/v2.2.0...v2.3.0
+
 ## 2.2.0
 
 ### Added

@@ -4,13 +4,13 @@ import { SuprSendFeedContext } from '../context/SuprSendFeedProvider';
 function useFeedClient() {
   const context = useContext(SuprSendFeedContext);
 
-  if (context === undefined) {
+  if (!context) {
     throw new Error(
       'useFeedClient must be used within a SuprSendProvider and SuprSendFeedProvider'
     );
   }
 
-  return context?.feedClient;
+  return context.feedClient;
 }
 
 export default useFeedClient;

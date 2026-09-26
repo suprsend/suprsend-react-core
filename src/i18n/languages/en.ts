@@ -25,6 +25,17 @@ const en: ILanguage = {
     months: 'months',
     year: 'year',
     years: 'years',
+    connecting: 'Connecting…',
+    connectionIssue:
+      'There seems to be a connection issue. New notifications may get delayed or missed.',
+    offlineMessage:
+      "You're offline. Reload the page to update notifications when your connection is back.",
+    authError:
+      'Not able to fetch notifications due to authentication or permission issue.',
+    reportIssue: 'Report an issue',
+    refreshPage: 'Refresh the page',
+    issueReported: 'Issue reported',
+    reportLimitExceeded: 'Report limit exceeded. Try later.',
   },
 };
 
