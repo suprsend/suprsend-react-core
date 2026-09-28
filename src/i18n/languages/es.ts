@@ -25,6 +25,17 @@ const es: ILanguage = {
     months: 'meses',
     year: 'año',
     years: 'años',
+    connecting: 'Conectando…',
+    connectionIssue:
+      'Parece que hay un problema de conexión. Es posible que las notificaciones nuevas se retrasen o no lleguen.',
+    offlineMessage:
+      'Estás sin conexión. Recarga la página para actualizar las notificaciones cuando vuelva la conexión.',
+    authError:
+      'No se pueden obtener las notificaciones debido a un problema de autenticación o de permisos.',
+    reportIssue: 'Informar de un problema',
+    refreshPage: 'Actualizar la página',
+    issueReported: 'Problema informado',
+    reportLimitExceeded: 'Límite de informes superado. Inténtalo más tarde.',
   },
 };
 

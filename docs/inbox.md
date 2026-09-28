@@ -28,15 +28,17 @@ interface SuprSendFeedProviderProps {
   pageSize?: number;
   stores?: IStore[] | null;
   host?: { socketHost?: string; apiHost?: string };
+  reachability?: boolean;
 }
 ```
 
-| Prop       | Description                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `tenantId` | Defaults to the active tenant set in `SuprSendProvider`, else the `default` tenant. Passing it pins the feed to that tenant and ignores later tenant changes; without it, the feed re-initializes whenever the active tenant changes. Must match `scope.tenant_id` passed while creating [userToken](https://docs.suprsend.com/docs/client-authentication#2-creating-signed-user-jwt-token), else scope mismatch error is thrown. |
-| `pageSize` | Number of notifications fetched per api call. Defaults to 20, maximum is 100.                                                                                                                                                                                                                                                                                                                                                     |
-| `stores`   | Pass it to segregate notifications into multiple tabs based on tags, preference categories and notification status like read, archived. [Read more](https://docs.suprsend.com/docs/multi-tabs).                                                                                                                                                                                                                                   |
-| `host`     | Overrides the default SuprSend API and socket host URLs, mainly needed in proxy setups.                                                                                                                                                                                                                                                                                                                                           |
+| Prop           | Description                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tenantId`     | Defaults to the active tenant set in `SuprSendProvider`, else the `default` tenant. Passing it pins the feed to that tenant and ignores later tenant changes; without it, the feed re-initializes whenever the active tenant changes. Must match `scope.tenant_id` passed while creating [userToken](https://docs.suprsend.com/docs/client-authentication#2-creating-signed-user-jwt-token), else scope mismatch error is thrown. |
+| `pageSize`     | Number of notifications fetched per api call. Defaults to 20, maximum is 100.                                                                                                                                                                                                                                                                                                                                                     |
+| `stores`       | Pass it to segregate notifications into multiple tabs based on tags, preference categories and notification status like read, archived. [Read more](https://docs.suprsend.com/docs/multi-tabs).                                                                                                                                                                                                                                   |
+| `host`         | Overrides the default SuprSend API and socket host URLs, mainly needed in proxy setups.                                                                                                                                                                                                                                                                                                                                           |
+| `reachability` | Opt in to tracking whether the feed is actually working for this user. Defaults to `false`. [Read more](#tracking-reachability).                                                                                                                                                                                                                                                                                                  |
 
 ### useFeedClient
 
@@ -121,6 +123,68 @@ function MyComponent() {
   );
 }
 ```
+
+### Tracking reachability
+
+Pass `reachability` to `SuprSendFeedProvider` to know whether the feed is working for this user: whether the browser has internet, the socket is live and the feed API is reachable. It is off by default. Useful for rendering a "No internet" banner or network not reachable banner.
+
+Read it with `useFeed().reachability`. Your component re-renders when it changes, and it is `undefined` when not opted in.
+
+```javascript
+import {
+  SuprSendFeedProvider,
+  useFeed,
+  ReachabilityStatus,
+} from '@suprsend/react-core';
+
+function App() {
+  return (
+    <SuprSendFeedProvider reachability>
+      <MyComponent />
+    </SuprSendFeedProvider>
+  );
+}
+
+function MyComponent() {
+  const { reachability } = useFeed();
+
+  if (reachability?.status === ReachabilityStatus.CONNECTING) {
+    return <div>Connecting…</div>;
+  }
+  return <YourFeed />;
+}
+```
+
+```typescript
+interface IFeedReachability {
+  status: ReachabilityStatus;
+  socket: {
+    status: ChannelStatus;
+    lastConnectedAt?: number;
+    lastDisconnectedAt?: number;
+    disconnectReason?: string;
+    reconnectAttempts?: number;
+  };
+  api: {
+    status: ChannelStatus;
+    lastSuccessAt?: number;
+    lastFailureAt?: number;
+    authError?: boolean;
+  };
+  lastChangedAt: number;
+}
+```
+
+Each channel is `UNKNOWN`, `CONNECTING`, `UP` or `DOWN`. A channel stays `UNKNOWN` until it is used, and an `UNKNOWN` channel is ignored.
+
+| `status`     | Meaning                                                                                         |
+| ------------ | ----------------------------------------------------------------------------------------------- |
+| `OFFLINE`    | The browser reports no internet connection.                                                     |
+| `UNKNOWN`    | The browser is online but neither channel has been used yet.                                    |
+| `CONNECTING` | No channel is down and at least one is `CONNECTING` (initial load, socket connect or retrying). |
+| `DEGRADED`   | The browser is online and at least one channel is down.                                         |
+| `AUTH_ERROR` | The browser is online but the API answered the initial feed load with `401` or `403`            |
+| `ONLINE`     | The browser is online and every channel in use is up.                                           |
 
 ### Understanding Notification Data Structure
 

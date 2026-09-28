@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { Feed, IFeedData } from '@suprsend/web-sdk';
+import { Feed, IFeedData, IFeedReachability } from '@suprsend/web-sdk';
 import { SuprSendContext } from '../../core/context/SuprSendProvider';
 import { useSuprSendClient } from '../../core';
 import {
@@ -22,6 +22,7 @@ function SuprSendFeedProvider({
   stores,
   host,
   pageSize,
+  reachability,
   children,
 }: SuprSendFeedProviderProps) {
   const suprsendClient = useSuprSendClient();
@@ -29,6 +30,7 @@ function SuprSendFeedProvider({
 
   const feedClientRef = useRef<Feed>();
   const [feedData, setFeedData] = useState<IFeedData>();
+  const [reachabilityData, setReachabilityData] = useState<IFeedReachability>();
 
   const activeTenantId = tenantId || ssContext.tenantId;
 
@@ -43,13 +45,19 @@ function SuprSendFeedProvider({
       stores,
       host,
       pageSize,
+      reachability,
     });
     feedClientRef.current = feedClient;
 
     setFeedData(feedClient?.data);
+    setReachabilityData(feedClient?.reachability);
 
     feedClient?.emitter.on('feed.store_update', (updatedStoreData) => {
       setFeedData(updatedStoreData);
+    });
+
+    feedClient?.emitter.on('feed.reachability_change', (updatedReachability) => {
+      setReachabilityData(updatedReachability);
     });
 
     feedClient.initializeSocketConnection();
@@ -61,6 +69,7 @@ function SuprSendFeedProvider({
     stores,
     host,
     pageSize,
+    reachability,
   ]);
 
   useEffect(() => {
@@ -76,7 +85,13 @@ function SuprSendFeedProvider({
 
   return (
     <SuprSendFeedContext.Provider
-      value={{ feedClient: feedClientRef.current, feedData, stores, refresh }}
+      value={{
+        feedClient: feedClientRef.current,
+        feedData,
+        reachability: reachabilityData,
+        stores,
+        refresh,
+      }}
     >
       {children}
     </SuprSendFeedContext.Provider>
