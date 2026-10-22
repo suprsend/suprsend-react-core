@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.4.0
+
+### Added
+
+- `SuprSendFeedProvider` now accepts a `disconnectWhenHidden` prop (defaults to `true`): disconnects the feed socket after the tab is hidden for 1 minute, and reconnects and refreshes the feed when the tab is visible again. Pass `false` to keep the socket always connected.
+
+### Changed
+
+- Upgraded `@suprsend/web-sdk` dependency to `^5.4.0`, which adds the `disconnectWhenHidden` option and reconnects the feed socket when the tab becomes visible if the server had closed it ([web-sdk changelog](https://github.com/suprsend/suprsend-web-sdk/blob/main/CHANGELOG.md#540)).
+
+[2.4.0]: https://github.com/suprsend/suprsend-react-core/compare/v2.3.0...v2.4.0
+
 ## 2.3.0
 
 ### Added
