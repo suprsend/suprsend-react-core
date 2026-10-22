@@ -23,6 +23,7 @@ function SuprSendFeedProvider({
   host,
   pageSize,
   reachability,
+  disconnectWhenHidden,
   children,
 }: SuprSendFeedProviderProps) {
   const suprsendClient = useSuprSendClient();
@@ -46,6 +47,7 @@ function SuprSendFeedProvider({
       host,
       pageSize,
       reachability,
+      disconnectWhenHidden,
     });
     feedClientRef.current = feedClient;
 
@@ -70,6 +72,7 @@ function SuprSendFeedProvider({
     host,
     pageSize,
     reachability,
+    disconnectWhenHidden,
   ]);
 
   useEffect(() => {
