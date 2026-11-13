@@ -5,6 +5,11 @@ const ar: ILanguage = {
   translations: {
     notifications: 'إشعارات',
     markAllAsRead: 'وضع علامة على الكل كمقروءة',
+    archiveAll: 'أرشفة الكل',
+    archiveAllConfirm:
+      'هل أنت متأكد أنك تريد أرشفة جميع الإشعارات؟ لا يمكن التراجع عن هذا الإجراء.',
+    archiveAllStarted: 'جارٍ الأرشفة. قد يستغرق ذلك بعض الوقت حتى تكتمل.',
+    cancel: 'إلغاء',
     noNotificationsTitle: 'لا توجد إخطارات حتى الآن',
     noNotificationsDescription: 'سنخبرك عندما نحصل على شيء جديد لك.',
     pinned: 'مثبت',

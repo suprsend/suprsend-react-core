@@ -5,6 +5,12 @@ const en: ILanguage = {
   translations: {
     notifications: 'Notifications',
     markAllAsRead: 'Mark all as read',
+    archiveAll: 'Archive all',
+    archiveAllConfirm:
+      "Are you sure you want to archive all notifications? This can't be reversed.",
+    archiveAllStarted:
+      'Archiving in progress. It may take some time to complete.',
+    cancel: 'Cancel',
     noNotificationsTitle: 'No notifications yet',
     noNotificationsDescription:
       "We'll let you know when we've got something new for you.",
