@@ -22,10 +22,6 @@ If you want to use other languages that are not supported by us or to override s
 interface ITranslations {
   notifications?: string;
   markAllAsRead?: string;
-  archiveAll?: string;
-  archiveAllConfirm?: string;
-  archiveAllStarted?: string;
-  cancel?: string;
   noNotificationsTitle?: string;
   noNotificationsDescription?: string;
   pinned?: string;

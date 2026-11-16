@@ -83,9 +83,6 @@ await feedClient.markAsInteracted(notificationId: string)
 // bulk mark all notifications as read
 await feedClient.markAllAsRead()
 
-// bulk archive all notifications. Clears the list and unread counts of non-archived stores, archived stores refresh once the archive completes
-await feedClient.markAllAsArchived()
-
 // bulk mark given notification id's as seen
 await feedClient.markBulkAsSeen(notificationIds: string[])
 ```
