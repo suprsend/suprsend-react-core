@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.5.0
+
+### Added
+
+- New translation keys `archiveAll`, `archiveAllConfirm`, `archiveAllStarted` and `cancel`, available in all built-in languages.
+
+### Changed
+
+- Upgraded `@suprsend/web-sdk` dependency to `^5.5.0`, which adds `feedClient.markAllAsArchived()` to archive all of the user's notifications ([web-sdk changelog](https://github.com/suprsend/suprsend-web-sdk/blob/main/CHANGELOG.md#550)).
+
+[2.5.0]: https://github.com/suprsend/suprsend-react-core/compare/v2.4.0...v2.5.0
+
 ## 2.4.0
 
 ### Added

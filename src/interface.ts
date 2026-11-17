@@ -90,6 +90,10 @@ export interface SuprSendI18nProviderProps {
 export interface ITranslations {
   notifications?: string;
   markAllAsRead?: string;
+  archiveAll?: string;
+  archiveAllConfirm?: string;
+  archiveAllStarted?: string;
+  cancel?: string;
   noNotificationsTitle?: string;
   noNotificationsDescription?: string;
   pinned?: string;
